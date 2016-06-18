@@ -4,8 +4,7 @@
     "attribution": "Groucho Marx",
     "tags": [
       "moviequotes"
-    ],
-    "background-image":"http://static.comicvine.com/uploads/original/11/115160/4974200-0189939493-Vinta.jpg"
+    ]
   },
   {
     "body": "If you’re not having fun, you’re doing something wrong.",
@@ -73,11 +72,13 @@
     "attribution": "C3PO",
     "tags": [
       "moviequotes"
-    ]
+    ],
+    "background": "http://a.dilcdn.com/bl/wp-content/uploads/sites/6/2015/07/Noescapefortheprincessthistime-e1436219473775-1024x516.png"
   },
   {
     "body": "Computers are useless.  They can only give you answers.",
-    "attribution": "Pablo Picasso"
+    "attribution": "Pablo Picasso",
+    "background": "http://www.themost10.com/wp-content/uploads/2012/03/Girl-Before-A-Mirror-By-Pablo-Picasso.jpg?40d6e2"
   },
   {
     "body": "It could be that the purpose of your life is only to serve as a warning to others.",

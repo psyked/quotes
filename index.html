@@ -8,7 +8,7 @@
     <style>
         body, html {
             /*background: #f62459;*/
-            background: #8b8b8b;
+            background: #008b8b;
             color: white;
             font-family: 'Lucida Grande', sans-serif;
             margin: 0;
@@ -27,10 +27,12 @@
         }
 
         article {
-            /*background: url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=http%3A%2F%2Fwww.visit-tel-aviv.com%2Fsites%2Fdefault%2Ffiles%2Ftitanic-body.jpg&container=focus&resize_w=10) top left no-repeat;*/
             background-size: cover;
             height: 100vh;
             width: 100vw;
+        }
+
+        article.with-image {
             box-shadow: inset 0 0 2rem rgba(0, 0, 0, .5);
         }
 
@@ -45,6 +47,9 @@
             margin: 0;
             padding: 1.6rem 0 1.6rem 0;
             transform: translateX(0%) translateY(-50%);
+        }
+
+        .with-image figure {
             text-shadow: 0 0 .5rem rgba(0, 0, 0, .5);
         }
 
@@ -65,6 +70,9 @@
             top: 2vh;
             left: 3vh;
             font-size: .5rem;
+        }
+
+        .with-image aside {
             text-shadow: 0 0 .5rem rgba(0, 0, 0, .5);
         }
 
@@ -95,16 +103,33 @@
                     }
             )
         }
-        $('article').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI('http://a.dilcdn.com/bl/wp-content/uploads/sites/6/2015/07/Noescapefortheprincessthistime-e1436219473775-1024x516.png') + '&container=focus&resize_w=10)')
+        if(quote.background) {
+            $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10)')
+            $('body').css('background', '#8b8b8b');
+        } else {
+            $('article').removeClass('with-image').css('background-image', 'none');
+            $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
+        }
     }
+
+    function randomQuote() {
+        var index = Math.floor(Math.random() * quoteData.length);
+        renderQuote(quoteData[index]);
+    }
+
+    var backgroundColors = ['#f62459', '#008b8b', '#3477db'];
+
+    var quoteData;
 
     fetch('./quotes.json', {
         method: 'get'
     }).then(function(response) {
         return response.json();
     }).then(function(quotes) {
-        var index = Math.round(Math.random() * quotes.length);
-        renderQuote(quotes[index]);
+        quoteData = quotes;
+        randomQuote();
+
+        $(document.body).on('click', randomQuote);
     }).catch(function(err) {
         renderQuote({
             body: 'Error 404',
