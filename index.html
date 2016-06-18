@@ -152,6 +152,31 @@
             attribution: 'Failed to load quote'
         });
     });
+
+    var hidden, visibilityChange;
+    if(typeof document.hidden !== "undefined") {
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+    } else if(typeof document.mozHidden !== "undefined") {
+        hidden = "mozHidden";
+        visibilityChange = "mozvisibilitychange";
+    } else if(typeof document.msHidden !== "undefined") {
+        hidden = "msHidden";
+        visibilityChange = "msvisibilitychange";
+    } else if(typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+    }
+
+    function handleVisibilityChange() {
+        if(document[hidden]) {
+            randomQuote();
+        }
+    }
+
+    if(!(typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined")) {
+        document.addEventListener(visibilityChange, handleVisibilityChange, false);
+    }
 </script>
 </body>
 </html>
