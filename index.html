@@ -4,11 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
+    <title>Loading...</title>
     <style>
         body, html {
-            /*background: #f62459;*/
-            background: #008b8b;
+            background: #8b8b8b;
             color: white;
             font-family: 'Lucida Grande', sans-serif;
             margin: 0;
@@ -111,6 +110,7 @@
             $('article').removeClass('with-image').css('background-image', 'none');
             $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
         }
+        document.title = quote.body;
     }
 
     function randomQuote() {
@@ -118,7 +118,7 @@
         renderQuote(quoteData[index]);
     }
 
-    var backgroundColors = ['#f62459', '#008b8b', '#3477db'];
+    var backgroundColors = ['#f62459', '#008b8b', '#3477db', '#ae59b6', '#e63022', '#cf000f', '#600000', '#802200', '#5a440d', '#34515e', '#550055', '#004055', '#123622'];
 
     var quoteData;
 
@@ -129,8 +129,10 @@
     }).then(function(quotes) {
         quoteData = quotes;
         randomQuote();
-
-        $(document.body).on('click touchstart', randomQuote);
+        $(document.body).on('click touchstart', function() {
+            randomQuote();
+            return false;
+        });
     }).catch(function(err) {
         renderQuote({
             body: 'Error 404',

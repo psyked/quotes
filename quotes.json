@@ -11,14 +11,16 @@
     "attribution": "Groucho Marx",
     "tags": [
       "moviequotes"
-    ]
+    ],
+    "background": "http://www.meathchronicle.ie/cache/430e1ddbb6cd63a04486829188204986.jpg"
   },
   {
     "body": "While money can’t buy happiness, it certainly lets you choose your own form of misery.",
     "attribution": "Groucho Marx",
     "tags": [
       "moviequotes"
-    ]
+    ],
+    "background": "http://static.guim.co.uk/sys-images/Guardian/Pix/pictures/2010/4/9/1270796185333/British-money--20-notes.-001.jpg"
   },
   {
     "body": "Whatever it is, I’m against it.",
@@ -40,15 +42,18 @@
   },
   {
     "body": "Overarchitecting / underplanning is the root of all evil.",
-    "attribution": "James Ford"
+    "attribution": "James Ford",
+    "background": "https://www.bluffton.edu/~sullivanm/spain/segovia/aqueduct/aque2.jpg"
   },
   {
     "body": "I don’t know what I’m doing and the customer doesn’t know what they want!",
-    "attribution": "James Ford"
+    "attribution": "James Ford",
+    "background": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Clownforlaragiddings.jpg"
   },
   {
     "body": "Good code is its own best documentation.",
-    "attribution": "Steve McConnell"
+    "attribution": "Steve McConnell",
+    "background": "http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg"
   },
   {
     "body": "A good UI makes the complex appear simple.",
@@ -57,11 +62,13 @@
       "ui",
       "ux",
       "design"
-    ]
+    ],
+    "background": "http://www.winnersedgetrading.com/wp-content/uploads/2013/03/fractal.jpg"
   },
   {
     "body": "Controlling complexity is the essence of computer programming.",
-    "attribution": "Brian Kernigan"
+    "attribution": "Brian Kernigan",
+    "background": "http://meditation-portal.com/wp-content/uploads/2015/03/7938468766_2fbab7533c_z.jpg"
   },
   {
     "body": "First, solve the problem. Then, write the code.",
@@ -82,6 +89,7 @@
   },
   {
     "body": "It could be that the purpose of your life is only to serve as a warning to others.",
-    "attribution": "Ashleigh Brilliant"
+    "attribution": "Ashleigh Brilliant",
+    "background": "http://www.visit-tel-aviv.com/sites/default/files/titanic-body.jpg"
   }
 ]
