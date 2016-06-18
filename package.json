@@ -1,0 +1,25 @@
+{
+  "name": "quotes",
+  "version": "1.0.0",
+  "description": "A template and set of quotes to throw up on nice displays",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psyked/quotes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/psyked/quotes/issues"
+  },
+  "homepage": "https://github.com/psyked/quotes#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-gh-pages": "^1.1.0"
+  }
+}
