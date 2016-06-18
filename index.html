@@ -129,7 +129,8 @@
     }).then(function(quotes) {
         quoteData = quotes;
         randomQuote();
-        $(document.body).on('click touchstart', function() {
+        $(document.body).on('click touchstart', function(e) {
+            e.preventDefault();
             randomQuote();
             return false;
         });

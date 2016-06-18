@@ -3,8 +3,10 @@
     "body": "Learn from the mistakes of others. You can never live long enough to make them all yourself.",
     "attribution": "Groucho Marx",
     "tags": [
-      "moviequotes"
-    ]
+      "moviequotes",
+      "lifehacks"
+    ],
+    "background": "http://cdn.bleedingcool.net/wp-content/uploads/2016/06/960.jpg"
   },
   {
     "body": "If you’re not having fun, you’re doing something wrong.",
@@ -12,47 +14,42 @@
     "tags": [
       "moviequotes"
     ],
-    "background": "http://www.meathchronicle.ie/cache/430e1ddbb6cd63a04486829188204986.jpg"
-  },
-  {
-    "body": "While money can’t buy happiness, it certainly lets you choose your own form of misery.",
-    "attribution": "Groucho Marx",
-    "tags": [
-      "moviequotes"
-    ],
-    "background": "http://static.guim.co.uk/sys-images/Guardian/Pix/pictures/2010/4/9/1270796185333/British-money--20-notes.-001.jpg"
-  },
-  {
-    "body": "Whatever it is, I’m against it.",
-    "attribution": "Groucho Marx",
-    "tags": [
-      "moviequotes"
-    ]
-  },
-  {
-    "body": "The only real laughter comes from despair.",
-    "attribution": "Groucho Marx",
-    "tags": [
-      "moviequotes"
-    ]
+    "background": "http://www.families.com/wp-content/uploads/2013/02/ball-pit.jpg"
   },
   {
     "body": "Premature optimization is the root of all evil.",
-    "attribution": "Donald Knuth"
+    "attribution": "Donald Knuth",
+    "tags": [
+      "development",
+      "optimisation"
+    ],
+    "background": "http://i.dailymail.co.uk/i/pix/2015/12/01/21/2EF7E7E400000578-0-image-a-10_1449007140075.jpg"
   },
   {
-    "body": "Overarchitecting / underplanning is the root of all evil.",
+    "body": "Overarchitecture & underplanning is the root of all evil.",
     "attribution": "James Ford",
-    "background": "https://www.bluffton.edu/~sullivanm/spain/segovia/aqueduct/aque2.jpg"
+    "tags": [
+      "development",
+      "planning",
+      "agile"
+    ],
+    "background": "https://s-media-cache-ak0.pinimg.com/236x/f6/5c/11/f65c11fb1745a05892949738035b4238.jpg"
   },
   {
     "body": "I don’t know what I’m doing and the customer doesn’t know what they want!",
     "attribution": "James Ford",
-    "background": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Clownforlaragiddings.jpg"
+    "tags": [
+      "agile"
+    ],
+    "background": "http://historic-cities.huji.ac.il/switzerland/baden/maps/braun_hogenberg_II_36_4_b.jpg"
   },
   {
     "body": "Good code is its own best documentation.",
     "attribution": "Steve McConnell",
+    "tags": [
+      "development",
+      "standards"
+    ],
     "background": "http://avocaventures.com/wp-content/uploads/2014/11/lines-of-code.jpg"
   },
   {
@@ -68,11 +65,18 @@
   {
     "body": "Controlling complexity is the essence of computer programming.",
     "attribution": "Brian Kernigan",
-    "background": "http://meditation-portal.com/wp-content/uploads/2015/03/7938468766_2fbab7533c_z.jpg"
+    "tags": [
+      "development"
+    ],
+    "background": "https://i.ytimg.com/vi/x30YOmfeVTE/maxresdefault.jpg"
   },
   {
     "body": "First, solve the problem. Then, write the code.",
-    "attribution": "John Johnson"
+    "tags": [
+      "development"
+    ],
+    "attribution": "John Johnson",
+    "background": "https://pixabay.com/static/uploads/photo/2015/09/17/17/31/code-944504_960_720.jpg"
   },
   {
     "body": "The city’s central computer told you?  R2D2, you know better than to trust a strange computer!",
@@ -80,7 +84,7 @@
     "tags": [
       "moviequotes"
     ],
-    "background": "http://a.dilcdn.com/bl/wp-content/uploads/sites/6/2015/07/Noescapefortheprincessthistime-e1436219473775-1024x516.png"
+    "background": "https://s-media-cache-ak0.pinimg.com/736x/20/af/07/20af07f5f86cef34b1edf86b76975027.jpg"
   },
   {
     "body": "Computers are useless.  They can only give you answers.",
@@ -90,6 +94,9 @@
   {
     "body": "It could be that the purpose of your life is only to serve as a warning to others.",
     "attribution": "Ashleigh Brilliant",
+    "tags": [
+      "demotivational"
+    ],
     "background": "http://www.visit-tel-aviv.com/sites/default/files/titanic-body.jpg"
   }
 ]
