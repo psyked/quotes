@@ -20,7 +20,7 @@ module.exports = function(grunt) {
             options: {
                 base: './'
             },
-            src: ['index.html', 'quotes.json']
+            src: ['index.html', 'quotes.json', 'android-chrome*', 'apple-touch*', 'favicon*', 'mstile*', 'browserconfig.xml', 'manifest.json', 'safari-pinned-tab.svg']
         },
         realFavicon: {
             favicons: {
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
                 dest: './',
                 options: {
                     iconsPath: '/',
-                    html: [ 'index.html' ],
+                    html: ['index.html'],
                     design: {
                         ios: {
                             pictureAspect: 'noChange'
