@@ -130,7 +130,7 @@
         quoteData = quotes;
         randomQuote();
 
-        $(document.body).on('click', randomQuote);
+        $(document.body).on('click tap', randomQuote);
     }).catch(function(err) {
         renderQuote({
             body: 'Error 404',
