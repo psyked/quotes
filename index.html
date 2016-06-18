@@ -104,11 +104,11 @@
             )
         }
         if(quote.background) {
-            $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10)')
             $('body').css('background', '#8b8b8b');
+            $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10)')
         } else {
-            $('article').removeClass('with-image').css('background-image', 'none');
             $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
+            $('article').removeClass('with-image').css('background-image', 'none');
         }
         document.title = quote.body;
     }
@@ -116,6 +116,17 @@
     function randomQuote() {
         var index = Math.floor(Math.random() * quoteData.length);
         renderQuote(quoteData[index]);
+    }
+
+    function preloadAllImages() {
+        var styleTag = 'body:after {content:';
+        quoteData.forEach(function(quote) {
+            if(quote.background) {
+                styleTag += 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10) '
+            }
+        });
+        styleTag += ';display: none;}';
+        $("head").append("<style type='text/css'>" + styleTag + "</style>");
     }
 
     var backgroundColors = ['#f62459', '#008b8b', '#3477db', '#ae59b6', '#e63022', '#cf000f', '#600000', '#802200', '#5a440d', '#34515e', '#550055', '#004055', '#123622'];
@@ -129,7 +140,9 @@
     }).then(function(quotes) {
         quoteData = quotes;
         randomQuote();
-        $(document.body).on('click touchstart', function() {
+        preloadAllImages();
+        $(document.body).on('click touchstart', function(e) {
+            e.preventDefault();
             randomQuote();
             return false;
         });
@@ -139,6 +152,31 @@
             attribution: 'Failed to load quote'
         });
     });
+
+    var hidden, visibilityChange;
+    if(typeof document.hidden !== "undefined") {
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+    } else if(typeof document.mozHidden !== "undefined") {
+        hidden = "mozHidden";
+        visibilityChange = "mozvisibilitychange";
+    } else if(typeof document.msHidden !== "undefined") {
+        hidden = "msHidden";
+        visibilityChange = "msvisibilitychange";
+    } else if(typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+    }
+
+    function handleVisibilityChange() {
+        if(document[hidden]) {
+            randomQuote();
+        }
+    }
+
+    if(!(typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined")) {
+        document.addEventListener(visibilityChange, handleVisibilityChange, false);
+    }
 </script>
 </body>
 </html>
