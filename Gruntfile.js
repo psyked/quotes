@@ -62,6 +62,41 @@ module.exports = function(grunt) {
                     }
                 }
             }
+        },
+        nightwatch: {
+            options: {
+                // task options
+                standalone: true,
+
+                // download settings
+                jar_version: '2.53.0',
+                // jar_path: '../nightwatch/selenium-server-standalone-2.53.0.jar',
+                jar_url: '	http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar',
+                src_folders: ['../nightwatch/tests'],
+                test_settings: {
+                    // phantom: {
+                    //     "desiredCapabilities": {
+                    //         "browserName": "phantomjs",
+                    //         "javascriptEnabled": true,
+                    //         "acceptSslCerts": true,
+                    //         "phantomjs.binary.path": "../nightwatch/phantomjs.exe"
+                    //     }
+                    // },
+                    firefox: {
+                        "desiredCapabilities": {
+                            "browserName": "firefox"
+                        }
+                    },
+                    // chrome: {
+                    //     "desiredCapabilities": {
+                    //         "browserName": "chrome"
+                    //     },
+                    //     "cli_args" : {
+                    //         "webdriver.chrome.driver" : "../nightwatch/chromedriver.exe"
+                    //     }
+                    // }
+                }
+            }
         }
     });
 
@@ -69,6 +104,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-gh-pages');
     grunt.loadNpmTasks('grunt-real-favicon');
+    grunt.loadNpmTasks('grunt-nightwatch');
 
     grunt.registerTask('default', ['connect', 'watch']);
 
