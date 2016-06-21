@@ -4,6 +4,7 @@
   "description": "A template and set of quotes to throw up on nice displays",
   "main": "index.js",
   "scripts": {
+    "start": "grunt",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
