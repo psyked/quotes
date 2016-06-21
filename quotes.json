@@ -26,7 +26,7 @@
     "background": "http://i.dailymail.co.uk/i/pix/2015/12/01/21/2EF7E7E400000578-0-image-a-10_1449007140075.jpg"
   },
   {
-    "body": "Overarchitecture & underplanning is the root of all evil.",
+    "body": "Overengineering & underplanning are the roots of all evil.",
     "attribution": "James Ford",
     "tags": [
       "development",
@@ -98,5 +98,35 @@
       "demotivational"
     ],
     "background": "http://www.visit-tel-aviv.com/sites/default/files/titanic-body.jpg"
+  },
+  {
+    "body": "You will never find time for anything. If you want the time, you must make it.",
+    "attribution": "Charles Buxton"
+  },
+  {
+    "body": "This world is but a canvas to our imagination.",
+    "attribution": "Henry David Thoreau"
+  },
+  {
+    "body": "We will either find a way, or make one.",
+    "attribution": "Hannibal"
+  },
+  {
+    "body": "Formula for success: under promise and over deliver.",
+    "attribution": "Tom Peters"
+  },
+  {
+    "body": "It’s kind of fun to do the impossible.",
+    "attribution": "Walt Disney"
+  },
+  {
+    "body": "Hodor.",
+    "attribution": "Hodor",
+    "background": "http://vignette2.wikia.nocookie.net/gameofthrones/images/2/29/Bran-stark-and-hodor-issac-hempstead-wright-and-kristian-nairn-helen-sloan.jpeg/revision/latest/scale-to-width-down/2000"
+  },
+  {
+    "body": "It's easier to ask forgiveness than it is to get permission.",
+    "attribution": "Grace Hopper",
+    "background": "https://upload.wikimedia.org/wikipedia/commons/1/10/GraceHopper2.jpg"
   }
 ]
