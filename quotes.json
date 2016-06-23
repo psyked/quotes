@@ -116,5 +116,15 @@
     "body": "It's easier to ask forgiveness than it is to get permission.",
     "attribution": "Grace Hopper",
     "background": "https://upload.wikimedia.org/wikipedia/commons/1/10/GraceHopper2.jpg"
+  },
+  {
+    "body": "Security is neither cheap nor easy, but it beats the alternative",
+    "attribution": "Heidi Waterhouse",
+    "background": "http://images.techhive.com/images/article/2012/09/hackers_security_password-100004008-gallery.jpg"
+  },
+  {
+    "body": "Don't build in compounding technical debt that you could trivially avoid.",
+    "attribution": "Heidi Waterhouse",
+    "background": "https://effectivesoftwaredesign.files.wordpress.com/2013/10/sisyphus.jpg"
   }
 ]
