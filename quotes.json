@@ -126,5 +126,9 @@
     "body": "Don't build in compounding technical debt that you could trivially avoid.",
     "attribution": "Heidi Waterhouse",
     "background": "https://effectivesoftwaredesign.files.wordpress.com/2013/10/sisyphus.jpg"
+  },
+  {
+    "body": "At the point you have just written the code you know more about that commit than anyone ever will. Write it down.",
+    "attribution": "Joel Chippindale"
   }
 ]
