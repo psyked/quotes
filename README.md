@@ -1,8 +1,7 @@
 # “Quotes”
 A template and set of quotes to throw up on nice displays
 
-## Building the project
+## Updating Quotes
+After you have updated the `quotes.json` file, run:
 
-## Deploying the project
-
-`grunt gh-pages`
+    grunt gh-pages
