@@ -46,7 +46,7 @@
   },
   {
     "body": "A good UI makes the complex appear simple.",
-    "attribution": "James Ford",
+    "attribution": "anon",
     "tags": [
       "ui",
       "ux",
@@ -140,6 +140,22 @@
     "attribution": "anon"
   },
   {
-    "body": "Quality is non-negotiable"
+    "body": "Quality is non-negotiable",
+    "background": "https://i.kinja-img.com/gawker-media/image/upload/s--G_vssBlX--/196brg9snthowjpg.jpg"
+  },
+  {
+    "body": "Plans are of little importance, but planning is essential",
+    "attribution": "Winston Churchill",
+    "background": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/pictures/2014/2/20/1392910579643/Winston-Churchill-014.jpg"
+  },
+  {
+    "body": "Luck is not a factor. Hope is not a strategy. Fear is not an option.",
+    "attribution": "James Cameron",
+    "background": "http://thefilmstage.com/wp-content/uploads/2012/03/James_Cameron_0.jpg"
+  },
+  {
+    "body": "We don’t need an accurate document, we need a shared understanding",
+    "attribution": "Jeff Patton",
+    "background": "https://assets.entrepreneur.com/content/16x9/822/20141204200950-exceptional-vision-life-lead-joy-success.jpeg"
   }
 ]
