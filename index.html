@@ -1,23 +1,200 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Loading...</title>
+    <style>
+        body, html {
+            background: #8b8b8b;
+            color: white;
+            font-family: 'Lucida Grande', sans-serif;
+            margin: 0;
+            font-size: 10vh;
+        }
 
-<div class="home">
+        @media screen and (orientation: portrait) {
+            body, html {
+                font-size: 10vw;
+            }
+        }
 
-  <h1 class="page-heading">Posts</h1>
+        main {
+            height: 100vh;
+            width: 100vw;
+        }
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+        article {
+            background-size: cover;
+            height: 100vh;
+            width: 100vw;
+        }
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
+        article.with-image {
+            box-shadow: inset 0 0 2rem rgba(0, 0, 0, .5);
+        }
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+        figure {
+            display: inline-block;
+            position: absolute;
+            width: 80%;
+            text-align: center;
+            top: 50%;
+            left: 10%;
+            font-size: 1rem;
+            margin: 0;
+            padding: 1.6rem 0 1.6rem 0;
+            transform: translateX(0%) translateY(-50%);
+        }
 
-</div>
+        .with-image figure {
+            text-shadow: 0 0 .5rem rgba(0, 0, 0, .5);
+        }
+
+        figcaption {
+            text-align: right;
+            font-size: .5rem;
+            width: 90%;
+            margin: 3vh 0;
+            display: block;
+            position: absolute;
+        }
+
+        aside {
+            display: inline-block;
+            position: absolute;
+            width: 50%;
+            text-align: left;
+            top: 2vh;
+            left: 3vh;
+            font-size: .5rem;
+        }
+
+        .with-image aside {
+            text-shadow: 0 0 .5rem rgba(0, 0, 0, .5);
+        }
+
+        aside span {
+            margin-right: .5em;
+        }
+    </style>
+    <link rel="apple-touch-icon" sizes="57x57" href="./apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="./android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="./favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+<main>
+    <article>
+        <figure>“<span class="quote-body">Loading...</span>”
+            <figcaption>&mdash; <cite class="quote-citation"></cite></figcaption>
+        </figure>
+        <aside class="quote-tags"></aside>
+    </article>
+</main>
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"
+        integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
+<script>
+    function renderQuote(quote) {
+        $('.quote-body').text(quote.body);
+        $('.quote-citation').text(quote.attribution);
+        $('.quote-tags').empty();
+        if(quote.tags) {
+            quote.tags.forEach(function(item) {
+                        $('.quote-tags').append('<span>#' + item + '</span>');
+                    }
+            )
+        }
+        if(quote.background) {
+            $('body').css('background', '#8b8b8b');
+            $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10)')
+        } else {
+            $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
+            $('article').removeClass('with-image').css('background-image', 'none');
+        }
+        document.title = quote.body;
+    }
+
+    function randomQuote() {
+        var index = Math.floor(Math.random() * quoteData.length);
+        renderQuote(quoteData[index]);
+    }
+
+    function preloadAllImages() {
+        var styleTag = 'body:after {content:';
+        quoteData.forEach(function(quote) {
+            if(quote.background) {
+                styleTag += 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10) '
+            }
+        });
+        styleTag += ';display: none;}';
+        $("head").append("<style type='text/css'>" + styleTag + "</style>");
+    }
+
+    var backgroundColors = ['#f62459', '#008b8b', '#3477db', '#ae59b6', '#e63022', '#cf000f', '#600000', '#802200', '#5a440d', '#34515e', '#550055', '#004055', '#123622'];
+
+    var quoteData;
+
+    fetch('./quotes.json', {
+        method: 'get'
+    }).then(function(response) {
+        return response.json();
+    }).then(function(quotes) {
+        quoteData = quotes;
+        randomQuote();
+        preloadAllImages();
+        $(document.body).on('click touchstart', function(e) {
+            e.preventDefault();
+            randomQuote();
+            return false;
+        });
+    }).catch(function(err) {
+        renderQuote({
+            body: 'Error 404',
+            attribution: 'Failed to load quote'
+        });
+    });
+
+    var hidden, visibilityChange;
+    if(typeof document.hidden !== "undefined") {
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+    } else if(typeof document.mozHidden !== "undefined") {
+        hidden = "mozHidden";
+        visibilityChange = "mozvisibilitychange";
+    } else if(typeof document.msHidden !== "undefined") {
+        hidden = "msHidden";
+        visibilityChange = "msvisibilitychange";
+    } else if(typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+    }
+
+    function handleVisibilityChange() {
+        if(document[hidden]) {
+            randomQuote();
+        }
+    }
+
+    if(!(typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined")) {
+        document.addEventListener(visibilityChange, handleVisibilityChange, false);
+    }
+</script>
+</body>
+</html>
