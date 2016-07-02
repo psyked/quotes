@@ -7,11 +7,14 @@
     <title>Loading...</title>
     <style>
         body, html {
-            background: #8b8b8b;
+            background: #333333;
             color: white;
             font-family: 'Lucida Grande', sans-serif;
             margin: 0;
             font-size: 10vh;
+            height: 100vh;
+            width: 100vw;
+            transition: background .7s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
         @media screen and (orientation: portrait) {
@@ -23,6 +26,8 @@
         main {
             height: 100vh;
             width: 100vw;
+            position: absolute;
+            position: fixed;
         }
 
         article {
@@ -31,8 +36,23 @@
             width: 100vw;
         }
 
+        article.quote, article.twitter {
+            display: none;
+        }
+
         article.with-image {
             box-shadow: inset 0 0 2rem rgba(0, 0, 0, .5);
+        }
+
+        article.twitter .placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        article.twitter.with-image .placeholder twitterwidget {
+            box-shadow: 0 0 .5rem rgba(0, 0, 0, .5);
         }
 
         figure {
@@ -100,10 +120,14 @@
 </head>
 <body>
 <main>
-    <article>
+    <article class="quote">
         <figure>“<span class="quote-body">Loading...</span>”
             <figcaption>&mdash; <cite class="quote-citation"></cite></figcaption>
         </figure>
+        <aside class="quote-tags"></aside>
+    </article>
+    <article class="twitter">
+        <div class="placeholder"></div>
         <aside class="quote-tags"></aside>
     </article>
 </main>
@@ -111,24 +135,124 @@
         integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
 <script>
-    function renderQuote(quote) {
-        $('.quote-body').text(quote.body);
-        $('.quote-citation').text(quote.attribution);
-        $('.quote-tags').empty();
-        if(quote.tags) {
-            quote.tags.forEach(function(item) {
-                        $('.quote-tags').append('<span>#' + item + '</span>');
-                    }
-            )
+
+    var measuredHeight, measuredWidth = 500;
+    var hasScaled = false;
+    var activeQuote;
+
+    function fadeInTweet(event) {
+        $('article.twitter').css({
+            display: 'block',
+            visibility: 'visible',
+            opacity: 0
+        }).animate({
+            opacity: 1
+        });
+        //        scaleQuote();
+    }
+
+    function scaleOnEvent() {
+        scaleQuote();
+        setTimeout(function () {
+            fadeInTweet();
+        }, 100);
+    }
+
+    function initTwitter() {
+        if (window.twttr) {
+            twttr.events.unbind('loaded', scaleOnEvent);
+            //            twttr.events.unbind('rendered', fadeInTweet);
+            twttr.events.bind('loaded', scaleOnEvent);
+            //            twttr.events.bind('rendered', fadeInTweet);
+        } else {
+            setTimeout(function () {
+                initTwitter();
+            }, 50)
         }
-        if(quote.background) {
-            $('body').css('background', '#8b8b8b');
-            $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10)')
+    }
+
+    function scaleQuote() {
+        if (window.twttr) {
+            if (!measuredHeight) {
+                $('main .placeholder').css('transform', 'translate(-50%, -50%) scale(1)');
+                measuredHeight = $('main .placeholder').height();
+            }
+            var verticalScaleValue = ($('body').height() * .95) / measuredHeight;
+            var horizontalScaleValue = ($('body').width() * .95) / measuredWidth;
+            if (activeQuote.tags) {
+                verticalScaleValue = ($('body').height() * .82) / measuredHeight;
+                horizontalScaleValue = ($('body').width() * .94) / measuredWidth;
+            }
+            var selectedScaleValue = (verticalScaleValue < horizontalScaleValue) ? verticalScaleValue : horizontalScaleValue;
+            $('main .placeholder').css('transform', 'translate(-50%, -50%) scale(' + selectedScaleValue + ')')
+        }
+    }
+
+    function attachBackgroundImage(imageUrl) {
+        $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(imageUrl) + '&container=focus&resize_w=10)')
+    }
+
+    function removeBackgroundImage() {
+        $('article').removeClass('with-image').css('background-image', 'none');
+    }
+
+    function renderQuote(quote) {
+        activeQuote = quote;
+        measuredHeight = undefined;
+        measuredWidth = 500;
+        $('article.twitter').hide();
+        if (activeQuote.twitter) {
+            $('article.twitter').css({
+                display: 'block',
+                visibility: 'hidden',
+                opacity: 0
+            });
+            $('article.quote').hide();
+            $('main .placeholder').empty();
+
+            $.get({
+                url: "https://publish.twitter.com/oembed",
+                data: {
+                    url: activeQuote.twitter
+                },
+                dataType: 'jsonp',
+                complete: function (data) {
+                    initTwitter();
+                    $('main .placeholder').html(data.responseJSON.html);
+                    $(window).off('resize', scaleQuote).on('resize', scaleQuote);
+                }
+            });
+            document.title = 'Twitter embed';
+        } else {
+            $('article.twitter').css({
+                display: 'block',
+                visibility: 'hidden',
+                opacity: 0
+            });
+            $('article.quote').show();
+
+            $('.quote-body').text(activeQuote.body);
+            if (activeQuote.attribution) {
+                $('.quote-citation').text(activeQuote.attribution);
+                $('figcaption').show();
+            } else {
+                $('figcaption').hide();
+            }
+            document.title = activeQuote.body;
+        }
+        $('.quote-tags').empty();
+        if (activeQuote.tags) {
+            activeQuote.tags.forEach(function (item) {
+                $('.quote-tags').append('<span>#' + item + '</span>');
+            })
+        }
+        if (activeQuote.background) {
+            $('body').css('background', '#333333');
+            attachBackgroundImage(activeQuote.background);
         } else {
             $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
-            $('article').removeClass('with-image').css('background-image', 'none');
+            removeBackgroundImage();
         }
-        document.title = quote.body;
     }
 
     function randomQuote() {
@@ -138,8 +262,8 @@
 
     function preloadAllImages() {
         var styleTag = 'body:after {content:';
-        quoteData.forEach(function(quote) {
-            if(quote.background) {
+        quoteData.forEach(function (quote) {
+            if (quote.background) {
                 styleTag += 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10) '
             }
         });
@@ -153,18 +277,18 @@
 
     fetch('./quotes.json', {
         method: 'get'
-    }).then(function(response) {
+    }).then(function (response) {
         return response.json();
-    }).then(function(quotes) {
+    }).then(function (quotes) {
         quoteData = quotes;
         randomQuote();
         preloadAllImages();
-        $(document.body).on('click touchstart', function(e) {
+        $(document.body).on('click touchstart', function (e) {
             e.preventDefault();
             randomQuote();
             return false;
         });
-    }).catch(function(err) {
+    }).catch(function (err) {
         renderQuote({
             body: 'Error 404',
             attribution: 'Failed to load quote'
@@ -172,27 +296,27 @@
     });
 
     var hidden, visibilityChange;
-    if(typeof document.hidden !== "undefined") {
+    if (typeof document.hidden !== "undefined") {
         hidden = "hidden";
         visibilityChange = "visibilitychange";
-    } else if(typeof document.mozHidden !== "undefined") {
+    } else if (typeof document.mozHidden !== "undefined") {
         hidden = "mozHidden";
         visibilityChange = "mozvisibilitychange";
-    } else if(typeof document.msHidden !== "undefined") {
+    } else if (typeof document.msHidden !== "undefined") {
         hidden = "msHidden";
         visibilityChange = "msvisibilitychange";
-    } else if(typeof document.webkitHidden !== "undefined") {
+    } else if (typeof document.webkitHidden !== "undefined") {
         hidden = "webkitHidden";
         visibilityChange = "webkitvisibilitychange";
     }
 
     function handleVisibilityChange() {
-        if(document[hidden]) {
+        if (document[hidden]) {
             randomQuote();
         }
     }
 
-    if(!(typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined")) {
+    if (!(typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined")) {
         document.addEventListener(visibilityChange, handleVisibilityChange, false);
     }
 </script>
