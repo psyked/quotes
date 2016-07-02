@@ -128,6 +128,7 @@
     </article>
     <article class="twitter">
         <div class="placeholder"></div>
+        <aside class="quote-tags"></aside>
     </article>
 </main>
 <script src="https://code.jquery.com/jquery-3.0.0.min.js"
@@ -135,7 +136,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
 <script>
 
-    var measuredHeight, measuredWidth = 520;
+    var measuredHeight, measuredWidth = 500;
+    var activeQuote;
 
     function initTwitter() {
         if (window.twttr) {
@@ -155,10 +157,14 @@
     function scaleQuote() {
         if (window.twttr) {
             if (!measuredHeight) {
-                measuredHeight = $('main .placeholder').height() + 20;
+                measuredHeight = $('main .placeholder').height();
             }
-            var verticalScaleValue = $('body').height() / measuredHeight;
-            var horizontalScaleValue = $('body').width() / measuredWidth;
+            var verticalScaleValue = ($('body').height() * .95) / measuredHeight;
+            var horizontalScaleValue = ($('body').width() * .95) / measuredWidth;
+            if (activeQuote.tags) {
+                verticalScaleValue = ($('body').height() * .82) / measuredHeight;
+                horizontalScaleValue = ($('body').width() * .94) / measuredWidth;
+            }
             var selectedScaleValue = (verticalScaleValue < horizontalScaleValue) ? verticalScaleValue : horizontalScaleValue;
             $('main .placeholder').css('transform', 'translate(-50%, -50%) scale(' + selectedScaleValue + ')')
         }
@@ -173,14 +179,15 @@
     }
 
     function renderQuote(quote) {
-        if (quote.twitter) {
+        activeQuote = quote;
+        if (activeQuote.twitter) {
             $('article.twitter').hide();
             $('article.quote').hide();
 
             $.get({
                 url: "https://publish.twitter.com/oembed",
                 data: {
-                    url: quote.twitter
+                    url: activeQuote.twitter
                 },
                 dataType: 'jsonp',
                 complete: function (data) {
@@ -194,25 +201,25 @@
             $('article.twitter').hide();
             $('article.quote').show();
 
-            $('.quote-body').text(quote.body);
-            if (quote.attribution) {
-                $('.quote-citation').text(quote.attribution);
+            $('.quote-body').text(activeQuote.body);
+            if (activeQuote.attribution) {
+                $('.quote-citation').text(activeQuote.attribution);
                 $('figcaption').show();
             } else {
                 $('figcaption').hide();
             }
-            $('.quote-tags').empty();
-            if (quote.tags) {
-                quote.tags.forEach(function (item) {
-                            $('.quote-tags').append('<span>#' + item + '</span>');
-                        }
-                )
-            }
-            document.title = quote.body;
+            document.title = activeQuote.body;
         }
-        if (quote.background) {
+        $('.quote-tags').empty();
+        if (activeQuote.tags) {
+            activeQuote.tags.forEach(function (item) {
+                        $('.quote-tags').append('<span>#' + item + '</span>');
+                    }
+            )
+        }
+        if (activeQuote.background) {
             $('body').css('background', '#333333');
-            attachBackgroundImage(quote.background);
+            attachBackgroundImage(activeQuote.background);
         } else {
             $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
             removeBackgroundImage();
