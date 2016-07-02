@@ -31,8 +31,23 @@
             width: 100vw;
         }
 
+        article.quote, article.twitter {
+            display: none;
+        }
+
         article.with-image {
             box-shadow: inset 0 0 2rem rgba(0, 0, 0, .5);
+        }
+
+        article.twitter .placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        article.twitter .placeholder twitterwidget {
+            box-shadow: 0 0 .5rem rgba(0, 0, 0, .5);
         }
 
         figure {
@@ -100,39 +115,91 @@
 </head>
 <body>
 <main>
-    <article>
+    <article class="quote">
         <figure>“<span class="quote-body">Loading...</span>”
             <figcaption>&mdash; <cite class="quote-citation"></cite></figcaption>
         </figure>
         <aside class="quote-tags"></aside>
+    </article>
+    <article class="twitter">
+        <div class="placeholder"></div>
     </article>
 </main>
 <script src="https://code.jquery.com/jquery-3.0.0.min.js"
         integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
 <script>
-    function renderQuote(quote) {
-        $('.quote-body').text(quote.body);
-        if(quote.attribution) {
-            $('.quote-citation').text(quote.attribution).show();
-        } else {
-            $('.quote-citation').hide();
-        }
-        $('.quote-tags').empty();
-        if(quote.tags) {
-            quote.tags.forEach(function(item) {
-                        $('.quote-tags').append('<span>#' + item + '</span>');
+
+    var measuredHeight, measuredWidth = 520;
+
+    function initTwitter() {
+        if (window.twttr) {
+            twttr.events.bind('loaded', function (event) {
+                        scaleQuote();
                     }
-            )
-        }
-        if(quote.background) {
-            $('body').css('background', '#8b8b8b');
-            $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10)')
+            );
         } else {
-            $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
-            $('article').removeClass('with-image').css('background-image', 'none');
+            setTimeout(function () {
+                initTwitter();
+            }, 50)
         }
-        document.title = quote.body;
+    }
+
+    function scaleQuote() {
+        if (window.twttr) {
+            if (!measuredHeight) {
+                measuredHeight = $('main .placeholder').height() + 20;
+            }
+            var verticalScaleValue = $('body').height() / measuredHeight;
+            var horizontalScaleValue = $('body').width() / measuredWidth;
+            var selectedScaleValue = (verticalScaleValue < horizontalScaleValue) ? verticalScaleValue : horizontalScaleValue;
+            $('main .placeholder').css('transform', 'translate(-50%, -50%) scale(' + selectedScaleValue + ')')
+        }
+    }
+
+    function renderQuote(quote) {
+        if (quote.twitter) {
+            $('article.twitter').show();
+            $('article.quote').hide();
+
+            $.get({
+                url: "https://publish.twitter.com/oembed",
+                data: {
+                    url: quote.twitter
+                },
+                dataType: 'jsonp',
+                complete: function (data) {
+                    $('main .placeholder').html(data.responseJSON.html);
+                    initTwitter();
+                    $(window).resize(scaleQuote);
+                }
+            })
+        } else {
+            $('article.twitter').hide();
+            $('article.quote').show();
+
+            $('.quote-body').text(quote.body);
+            if (quote.attribution) {
+                $('.quote-citation').text(quote.attribution).show();
+            } else {
+                $('.quote-citation').hide();
+            }
+            $('.quote-tags').empty();
+            if (quote.tags) {
+                quote.tags.forEach(function (item) {
+                            $('.quote-tags').append('<span>#' + item + '</span>');
+                        }
+                )
+            }
+            if (quote.background) {
+                $('body').css('background', '#8b8b8b');
+                $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10)')
+            } else {
+                $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
+                $('article').removeClass('with-image').css('background-image', 'none');
+            }
+            document.title = quote.body;
+        }
     }
 
     function randomQuote() {
@@ -142,8 +209,8 @@
 
     function preloadAllImages() {
         var styleTag = 'body:after {content:';
-        quoteData.forEach(function(quote) {
-            if(quote.background) {
+        quoteData.forEach(function (quote) {
+            if (quote.background) {
                 styleTag += 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10) '
             }
         });
@@ -157,18 +224,18 @@
 
     fetch('./quotes.json', {
         method: 'get'
-    }).then(function(response) {
+    }).then(function (response) {
         return response.json();
-    }).then(function(quotes) {
+    }).then(function (quotes) {
         quoteData = quotes;
         randomQuote();
         preloadAllImages();
-        $(document.body).on('click touchstart', function(e) {
+        $(document.body).on('click touchstart', function (e) {
             e.preventDefault();
             randomQuote();
             return false;
         });
-    }).catch(function(err) {
+    }).catch(function (err) {
         renderQuote({
             body: 'Error 404',
             attribution: 'Failed to load quote'
@@ -176,27 +243,27 @@
     });
 
     var hidden, visibilityChange;
-    if(typeof document.hidden !== "undefined") {
+    if (typeof document.hidden !== "undefined") {
         hidden = "hidden";
         visibilityChange = "visibilitychange";
-    } else if(typeof document.mozHidden !== "undefined") {
+    } else if (typeof document.mozHidden !== "undefined") {
         hidden = "mozHidden";
         visibilityChange = "mozvisibilitychange";
-    } else if(typeof document.msHidden !== "undefined") {
+    } else if (typeof document.msHidden !== "undefined") {
         hidden = "msHidden";
         visibilityChange = "msvisibilitychange";
-    } else if(typeof document.webkitHidden !== "undefined") {
+    } else if (typeof document.webkitHidden !== "undefined") {
         hidden = "webkitHidden";
         visibilityChange = "webkitvisibilitychange";
     }
 
     function handleVisibilityChange() {
-        if(document[hidden]) {
+        if (document[hidden]) {
             randomQuote();
         }
     }
 
-    if(!(typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined")) {
+    if (!(typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined")) {
         document.addEventListener(visibilityChange, handleVisibilityChange, false);
     }
 </script>
