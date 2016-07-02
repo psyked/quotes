@@ -12,6 +12,8 @@
             font-family: 'Lucida Grande', sans-serif;
             margin: 0;
             font-size: 10vh;
+
+            transition: background .7s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
         @media screen and (orientation: portrait) {
@@ -46,7 +48,7 @@
             transform: translate(-50%, -50%);
         }
 
-        article.twitter .placeholder twitterwidget {
+        article.twitter.with-image .placeholder twitterwidget {
             box-shadow: 0 0 .5rem rgba(0, 0, 0, .5);
         }
 
@@ -135,9 +137,11 @@
     function initTwitter() {
         if (window.twttr) {
             twttr.events.bind('loaded', function (event) {
-                        scaleQuote();
-                    }
-            );
+                scaleQuote();
+            });
+            twttr.events.bind('rendered', function (event) {
+                $('article.twitter').fadeIn();
+            });
         } else {
             setTimeout(function () {
                 initTwitter();
@@ -157,9 +161,17 @@
         }
     }
 
+    function attachBackgroundImage(imageUrl) {
+        $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(imageUrl) + '&container=focus&resize_w=10)')
+    }
+
+    function removeBackgroundImage() {
+        $('article').removeClass('with-image').css('background-image', 'none');
+    }
+
     function renderQuote(quote) {
         if (quote.twitter) {
-            $('article.twitter').show();
+            $('article.twitter').hide();
             $('article.quote').hide();
 
             $.get({
@@ -191,14 +203,14 @@
                         }
                 )
             }
-            if (quote.background) {
-                $('body').css('background', '#8b8b8b');
-                $('article').addClass('with-image').css('background-image', 'url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?url=' + encodeURI(quote.background) + '&container=focus&resize_w=10)')
-            } else {
-                $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
-                $('article').removeClass('with-image').css('background-image', 'none');
-            }
             document.title = quote.body;
+        }
+        if (quote.background) {
+            $('body').css('background', '#8b8b8b');
+            attachBackgroundImage(quote.background);
+        } else {
+            $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
+            removeBackgroundImage();
         }
     }
 
