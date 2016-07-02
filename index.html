@@ -188,7 +188,7 @@
                     initTwitter();
                     $(window).resize(scaleQuote);
                 }
-            })
+            });
             document.title = 'Twitter embed';
         } else {
             $('article.twitter').hide();
@@ -196,9 +196,10 @@
 
             $('.quote-body').text(quote.body);
             if (quote.attribution) {
-                $('.quote-citation').text(quote.attribution).show();
+                $('.quote-citation').text(quote.attribution);
+                $('figcaption').show();
             } else {
-                $('.quote-citation').hide();
+                $('figcaption').hide();
             }
             $('.quote-tags').empty();
             if (quote.tags) {
