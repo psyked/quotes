@@ -7,7 +7,7 @@
     <title>Loading...</title>
     <style>
         body, html {
-            background: #8b8b8b;
+            background: #333333;
             color: white;
             font-family: 'Lucida Grande', sans-serif;
             margin: 0;
@@ -211,7 +211,7 @@
             document.title = quote.body;
         }
         if (quote.background) {
-            $('body').css('background', '#8b8b8b');
+            $('body').css('background', '#333333');
             attachBackgroundImage(quote.background);
         } else {
             $('body').css('background', backgroundColors[Math.floor(Math.random() * backgroundColors.length)]);
