@@ -113,7 +113,11 @@
 <script>
     function renderQuote(quote) {
         $('.quote-body').text(quote.body);
-        $('.quote-citation').text(quote.attribution);
+        if(quote.attribution) {
+            $('.quote-citation').text(quote.attribution).show();
+        } else {
+            $('.quote-citation').hide();
+        }
         $('.quote-tags').empty();
         if(quote.tags) {
             quote.tags.forEach(function(item) {
