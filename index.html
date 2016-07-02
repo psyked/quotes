@@ -137,16 +137,33 @@
 <script>
 
     var measuredHeight, measuredWidth = 500;
+    var hasScaled = false;
     var activeQuote;
+
+    function fadeInTweet(event) {
+        $('article.twitter').css({
+            display: 'block',
+            visibility: 'visible',
+            opacity: 0
+        }).animate({
+            opacity: 1
+        });
+        //        scaleQuote();
+    }
+
+    function scaleOnEvent() {
+        scaleQuote();
+        setTimeout(function () {
+            fadeInTweet();
+        }, 100);
+    }
 
     function initTwitter() {
         if (window.twttr) {
-            twttr.events.bind('loaded', function (event) {
-                scaleQuote();
-            });
-            twttr.events.bind('rendered', function (event) {
-                $('article.twitter').fadeIn();
-            });
+            twttr.events.unbind('loaded', scaleOnEvent);
+            //            twttr.events.unbind('rendered', fadeInTweet);
+            twttr.events.bind('loaded', scaleOnEvent);
+            //            twttr.events.bind('rendered', fadeInTweet);
         } else {
             setTimeout(function () {
                 initTwitter();
@@ -157,6 +174,7 @@
     function scaleQuote() {
         if (window.twttr) {
             if (!measuredHeight) {
+                $('main .placeholder').css('transform', 'translate(-50%, -50%) scale(1)');
                 measuredHeight = $('main .placeholder').height();
             }
             var verticalScaleValue = ($('body').height() * .95) / measuredHeight;
@@ -180,9 +198,17 @@
 
     function renderQuote(quote) {
         activeQuote = quote;
+        measuredHeight = undefined;
+        measuredWidth = 500;
+        $('article.twitter').hide();
         if (activeQuote.twitter) {
-            $('article.twitter').hide();
+            $('article.twitter').css({
+                display: 'block',
+                visibility: 'hidden',
+                opacity: 0
+            });
             $('article.quote').hide();
+            $('main .placeholder').empty();
 
             $.get({
                 url: "https://publish.twitter.com/oembed",
@@ -191,14 +217,18 @@
                 },
                 dataType: 'jsonp',
                 complete: function (data) {
-                    $('main .placeholder').html(data.responseJSON.html);
                     initTwitter();
-                    $(window).resize(scaleQuote);
+                    $('main .placeholder').html(data.responseJSON.html);
+                    $(window).off('resize', scaleQuote).on('resize', scaleQuote);
                 }
             });
             document.title = 'Twitter embed';
         } else {
-            $('article.twitter').hide();
+            $('article.twitter').css({
+                display: 'block',
+                visibility: 'hidden',
+                opacity: 0
+            });
             $('article.quote').show();
 
             $('.quote-body').text(activeQuote.body);
@@ -213,9 +243,8 @@
         $('.quote-tags').empty();
         if (activeQuote.tags) {
             activeQuote.tags.forEach(function (item) {
-                        $('.quote-tags').append('<span>#' + item + '</span>');
-                    }
-            )
+                $('.quote-tags').append('<span>#' + item + '</span>');
+            })
         }
         if (activeQuote.background) {
             $('body').css('background', '#333333');
