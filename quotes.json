@@ -177,5 +177,29 @@
       "frontend",
       "tips"
     ]
+  },
+  {
+    "body": "Individuals and interactions over processes and tools",
+    "tags": [
+      "agile"
+    ]
+  },
+  {
+    "body": "Working software over comprehensive documentation",
+    "tags": [
+      "agile"
+    ]
+  },
+  {
+    "body": "Customer collaboration over contract negotiation",
+    "tags": [
+      "agile"
+    ]
+  },
+  {
+    "body": "Responding to change over following a plan",
+    "tags": [
+      "agile"
+    ]
   }
 ]
